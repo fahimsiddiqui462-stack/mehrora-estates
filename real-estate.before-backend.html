@@ -1,0 +1,1766 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prime Estate | Luxury Real Estate</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Cormorant:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --gold: #c9a96e;
+            --gold-light: #e8d5a3;
+            --gold-dark: #a08040;
+            --cream: #faf8f5;
+            --charcoal: #1a1816;
+            --charcoal-light: #2a2724;
+            --text: #4a4540;
+            --text-light: #8a8580;
+        }
+
+        body {
+            font-family: 'Jost', sans-serif;
+            background: var(--cream);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* Scroll Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(60px);
+            transition: all 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-80px);
+            transition: all 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .reveal-left.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(80px);
+            transition: all 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .reveal-right.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .delay-1 {
+            transition-delay: 0.1s;
+        }
+
+        .delay-2 {
+            transition-delay: 0.2s;
+        }
+
+        .delay-3 {
+            transition-delay: 0.3s;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--cream);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--gold);
+            border-radius: 3px;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(250, 248, 245, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(201, 169, 110, 0.15);
+            transition: all 0.4s;
+        }
+
+        .navbar-brand {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--charcoal) !important;
+            letter-spacing: 2px;
+        }
+
+        .navbar-brand span {
+            color: var(--gold);
+            font-style: italic;
+        }
+
+        .nav-link {
+            color: var(--text) !important;
+            font-weight: 400;
+            font-size: 0.9rem;
+            margin: 0 18px;
+            transition: all 0.3s;
+            position: relative;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            font-family: 'Jost', sans-serif;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--gold) !important;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            width: 0;
+            height: 1px;
+            background: var(--gold);
+            transition: all 0.4s;
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 60%;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 10px 28px;
+            font-family: 'Jost', sans-serif;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.4s;
+        }
+
+        .nav-btn:hover {
+            background: var(--gold);
+            color: var(--cream);
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 140px 0 100px;
+            background: var(--cream);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(160deg, rgba(201, 169, 110, 0.06) 0%, transparent 60%);
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40%;
+            height: 60%;
+            background: linear-gradient(45deg, rgba(201, 169, 110, 0.04) 0%, transparent 50%);
+        }
+
+        .hero-eyebrow {
+            font-family: 'Jost', sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .hero-eyebrow::before {
+            content: '';
+            width: 40px;
+            height: 1px;
+            background: var(--gold);
+        }
+
+        .hero h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 4.5rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 25px;
+            color: var(--charcoal);
+            letter-spacing: -1px;
+        }
+
+        .hero h1 em {
+            font-style: italic;
+            color: var(--gold);
+            font-weight: 400;
+        }
+
+        .hero p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            line-height: 1.9;
+            max-width: 480px;
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+
+        .hero-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--gold);
+            color: var(--cream);
+            padding: 16px 40px;
+            font-family: 'Jost', sans-serif;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-decoration: none;
+            border: 1px solid var(--gold);
+            transition: all 0.4s;
+        }
+
+        .hero-btn:hover {
+            background: transparent;
+            color: var(--gold);
+        }
+
+        .hero-btn-outline {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: transparent;
+            color: var(--charcoal);
+            padding: 16px 40px;
+            font-family: 'Jost', sans-serif;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-decoration: none;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            margin-left: 15px;
+            transition: all 0.4s;
+        }
+
+        .hero-btn-outline:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .hero-3d-stack {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            perspective: 1200px;
+        }
+
+        .property-card-3d {
+            position: absolute;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .property-card-3d:hover {
+            transform: translateY(-10px) rotateY(0deg) !important;
+            z-index: 10 !important;
+        }
+
+        .card-3d-1 {
+            width: 320px;
+            height: 400px;
+            top: 0;
+            right: 80px;
+            transform: rotateY(-8deg) rotateX(5deg);
+            z-index: 3;
+        }
+
+        .card-3d-2 {
+            width: 280px;
+            height: 350px;
+            top: 60px;
+            right: 0;
+            transform: rotateY(5deg) rotateX(-3deg);
+            z-index: 2;
+        }
+
+        .card-3d-3 {
+            width: 260px;
+            height: 320px;
+            top: 120px;
+            right: 200px;
+            transform: rotateY(-3deg) rotateX(8deg);
+            z-index: 1;
+        }
+
+        .property-card-3d img {
+            width: 100%;
+            height: 65%;
+            object-fit: cover;
+        }
+
+        .card-3d-body {
+            padding: 20px;
+            background: #fff;
+        }
+
+        .card-3d-body h4 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .card-3d-body p {
+            color: #888;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+        }
+
+        .card-3d-price {
+            color: var(--gold);
+            font-weight: 700;
+            font-size: 1.2rem;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .floating-stat {
+            position: absolute;
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px 25px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            z-index: 5;
+        }
+
+        .floating-stat.top-right {
+            top: 20px;
+            right: -20px;
+        }
+
+        .floating-stat.bottom-left {
+            bottom: 30px;
+            left: -30px;
+        }
+
+        .floating-stat h4 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            color: var(--gold);
+            margin-bottom: 3px;
+            font-weight: 700;
+        }
+
+        .floating-stat p {
+            color: #888;
+            font-size: 0.75rem;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Marquee */
+        .marquee-strip {
+            background: var(--charcoal);
+            padding: 20px 0;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .marquee-content {
+            display: inline-block;
+            animation: marquee 25s linear infinite;
+        }
+
+        .marquee-content span {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.4);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin: 0 40px;
+        }
+
+        .marquee-content span i {
+            color: var(--gold);
+            margin-right: 10px;
+            font-size: 0.8rem;
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* Stats */
+        .stats-bar {
+            background: var(--charcoal);
+            padding: 60px 0;
+        }
+
+        .stat-bar-item {
+            text-align: center;
+            position: relative;
+        }
+
+        .stat-bar-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1px;
+            height: 50px;
+            background: rgba(201, 169, 110, 0.2);
+        }
+
+        .stat-bar-num {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            color: var(--gold);
+            font-weight: 700;
+        }
+
+        .stat-bar-label {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-top: 10px;
+            font-family: 'Jost', sans-serif;
+        }
+
+        /* Section Titles */
+        .section-title {
+            text-align: center;
+            margin-bottom: 70px;
+        }
+
+        .section-title .eyebrow {
+            font-size: 0.75rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 15px;
+            font-family: 'Jost', sans-serif;
+        }
+
+        .section-title h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.2rem;
+            font-weight: 700;
+            color: var(--charcoal);
+            line-height: 1.2;
+        }
+
+        .section-title h2 em {
+            font-style: italic;
+            color: var(--gold);
+            font-weight: 400;
+        }
+
+        .section-title p {
+            color: var(--text-light);
+            margin-top: 15px;
+            font-size: 1rem;
+            font-weight: 300;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Flip Cards */
+        .featured-section {
+            padding: 120px 0;
+            background: #fff;
+        }
+
+        .flip-card {
+            background: transparent;
+            perspective: 1000px;
+            height: 450px;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front,
+        .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 24px;
+            overflow: hidden;
+        }
+
+        .flip-card-front {
+            background: #fff;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .flip-card-back {
+            background: linear-gradient(135deg, var(--charcoal), var(--charcoal-light));
+            transform: rotateY(180deg);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .flip-img {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+        }
+
+        .flip-body {
+            padding: 30px;
+        }
+
+        .flip-body h4 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            color: var(--charcoal);
+        }
+
+        .flip-body .location {
+            color: var(--text-light);
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+        }
+
+        .flip-body .price {
+            color: var(--gold);
+            font-weight: 700;
+            font-size: 1.4rem;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .flip-body .features {
+            display: flex;
+            gap: 20px;
+            margin-top: 18px;
+            padding-top: 18px;
+            border-top: 1px solid rgba(201, 169, 110, 0.15);
+        }
+
+        .flip-body .features span {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        .flip-body .features span i {
+            color: var(--gold);
+            margin-right: 5px;
+        }
+
+        .flip-back-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            color: var(--gold);
+            margin-bottom: 25px;
+        }
+
+        .flip-back-details {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            padding: 0;
+            list-style: none;
+        }
+
+        .flip-back-details li {
+            margin-bottom: 10px;
+        }
+
+        .flip-back-details li i {
+            color: var(--gold);
+            margin-right: 12px;
+        }
+
+        .flip-btn {
+            background: var(--gold);
+            color: #fff;
+            padding: 14px 35px;
+            border-radius: 0;
+            text-decoration: none;
+            font-weight: 500;
+            text-align: center;
+            transition: all 0.3s;
+            border: 1px solid var(--gold);
+            font-family: 'Jost', sans-serif;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .flip-btn:hover {
+            background: transparent;
+            color: var(--gold);
+        }
+
+        /* Services */
+        .services-section {
+            padding: 120px 0;
+            background: var(--cream);
+        }
+
+        .tilt-card {
+            background: #fff;
+            border-radius: 0;
+            padding: 50px 35px;
+            text-align: center;
+            transition: all 0.5s;
+            border: 1px solid rgba(201, 169, 110, 0.1);
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tilt-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--gold);
+            transform: scaleX(0);
+            transition: transform 0.5s;
+        }
+
+        .tilt-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .tilt-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.08);
+            border-color: rgba(201, 169, 110, 0.2);
+        }
+
+        .tilt-icon {
+            width: 70px;
+            height: 70px;
+            border: 1px solid rgba(201, 169, 110, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            font-size: 1.6rem;
+            color: var(--gold);
+            transition: all 0.4s;
+        }
+
+        .tilt-card:hover .tilt-icon {
+            background: var(--gold);
+            color: #fff;
+            border-color: var(--gold);
+        }
+
+        .tilt-card h4 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+            color: var(--charcoal);
+        }
+
+        .tilt-card p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        /* Locations */
+        .locations-section {
+            padding: 120px 0;
+            background: var(--charcoal);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .locations-section .section-title h2 {
+            color: #fff;
+        }
+
+        .locations-section .section-title p {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .location-card {
+            position: relative;
+            border-radius: 0;
+            overflow: hidden;
+            height: 340px;
+            cursor: pointer;
+        }
+
+        .location-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s;
+        }
+
+        .location-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .location-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 60%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 35px;
+        }
+
+        .location-overlay h4 {
+            font-family: 'Cormorant Garamond', serif;
+            color: #fff;
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .location-overlay p {
+            color: var(--gold);
+            font-size: 0.85rem;
+        }
+
+        .location-count {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            background: rgba(201, 169, 110, 0.9);
+            color: var(--charcoal);
+            padding: 8px 18px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            font-family: 'Jost', sans-serif;
+        }
+
+        /* Testimonials */
+        .testimonials-section {
+            padding: 120px 0;
+            background: #fff;
+        }
+
+        .testi-card {
+            background: var(--cream);
+            padding: 45px;
+            position: relative;
+            transition: all 0.4s;
+            border: 1px solid transparent;
+        }
+
+        .testi-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(201, 169, 110, 0.2);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.06);
+        }
+
+        .testi-quote {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 4rem;
+            color: var(--gold);
+            opacity: 0.3;
+            line-height: 0;
+            margin-bottom: 25px;
+        }
+
+        .testi-text {
+            color: var(--text);
+            font-size: 1rem;
+            line-height: 1.9;
+            margin-bottom: 30px;
+            font-style: italic;
+            font-family: 'Cormorant', serif;
+        }
+
+        .testi-author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .testi-avatar {
+            width: 55px;
+            height: 55px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.2rem;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .testi-name h5 {
+            font-size: 1rem;
+            margin-bottom: 3px;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .testi-name p {
+            color: var(--text-light);
+            font-size: 0.8rem;
+            margin: 0;
+        }
+
+        .testi-stars {
+            color: var(--gold);
+            font-size: 0.85rem;
+            margin-top: 20px;
+        }
+
+        /* CTA */
+        .cta-section {
+            padding: 120px 0;
+            background: var(--charcoal);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(201, 169, 110, 0.08) 0%, transparent 70%);
+        }
+
+        .cta-content {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-content h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.5rem;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .cta-content h2 em {
+            font-style: italic;
+            color: var(--gold);
+            font-weight: 400;
+        }
+
+        .cta-content p {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 40px;
+            font-weight: 300;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--gold);
+            color: var(--cream);
+            padding: 16px 40px;
+            font-family: 'Jost', sans-serif;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-decoration: none;
+            border: 1px solid var(--gold);
+            transition: all 0.4s;
+        }
+
+        .cta-btn:hover {
+            background: transparent;
+            color: var(--gold);
+        }
+
+        /* Footer */
+        .footer {
+            background: #0f0e0d;
+            padding: 60px 0 30px;
+            border-top: 1px solid rgba(201, 169, 110, 0.1);
+        }
+
+        .footer-brand {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .footer-brand span {
+            color: var(--gold);
+            font-style: italic;
+        }
+
+        .footer p {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.9rem;
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        .footer h5 {
+            color: #fff;
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 14px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.4);
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--gold);
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .footer-social a {
+            width: 45px;
+            height: 45px;
+            border: 1px solid rgba(201, 169, 110, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+            transition: all 0.3s;
+        }
+
+        .footer-social a:hover {
+            background: var(--gold);
+            color: var(--charcoal);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: 50px;
+            padding-top: 25px;
+            text-align: center;
+        }
+
+        .footer-bottom p {
+            color: rgba(255, 255, 255, 0.2);
+            font-size: 0.85rem;
+            margin: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 991px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .hero-3d-stack {
+                height: 400px;
+                margin-top: 50px;
+            }
+
+            .card-3d-1 {
+                width: 260px;
+                height: 340px;
+                right: 40px;
+            }
+
+            .card-3d-2 {
+                width: 220px;
+                height: 290px;
+            }
+
+            .card-3d-3 {
+                width: 200px;
+                height: 260px;
+                right: 150px;
+            }
+
+            .floating-stat {
+                display: none;
+            }
+
+            .stat-bar-item:not(:last-child)::after {
+                display: none;
+            }
+
+            .section-title h2 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                text-align: center;
+                padding-top: 120px;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                max-width: 100%;
+            }
+
+            .hero-btns {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .hero-3d-stack {
+                display: none;
+            }
+
+            .flip-card {
+                height: 400px;
+            }
+
+            .cta-content h2 {
+                font-size: 2.5rem;
+            }
+
+            .location-card {
+                height: 280px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="#">Prime<span>Estate</span></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span style="color:var(--gold);"><i class="fas fa-bars"></i></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#properties">Properties</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#locations">Locations</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#testimonials">Reviews</a></li>
+                    <li class="nav-item ms-lg-3"><a href="#contact" class="nav-btn">Contact Us</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="hero-eyebrow">Premium Real Estate</div>
+                    <h1 class="reveal">Find Your <em>Dream</em> Home Today</h1>
+                    <p class="reveal delay-1">Discover luxury properties, modern apartments, and elegant villas in
+                        Pakistan's most prestigious locations. We make finding your perfect home an extraordinary
+                        experience.</p>
+                    <div class="reveal delay-2">
+                        <a href="#properties" class="hero-btn">Explore Properties</a>
+                        <a href="#contact" class="hero-btn-outline">Get in Touch</a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="hero-3d-stack reveal-right">
+                        <div class="property-card-3d card-3d-1">
+                            <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=500&q=80"
+                                alt="Luxury Villa">
+                            <div class="card-3d-body">
+                                <h4>Luxury Villa</h4>
+                                <p><i class="fas fa-map-marker-alt" style="color:var(--gold);"></i> DHA Phase 6, Karachi
+                                </p>
+                                <div class="card-3d-price">PKR 4.5 Crore</div>
+                            </div>
+                        </div>
+                        <div class="property-card-3d card-3d-2">
+                            <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=500&q=80"
+                                alt="Modern Apartment">
+                            <div class="card-3d-body">
+                                <h4>Modern Apartment</h4>
+                                <p><i class="fas fa-map-marker-alt" style="color:var(--gold);"></i> Clifton, Karachi</p>
+                                <div class="card-3d-price">PKR 2.8 Crore</div>
+                            </div>
+                        </div>
+                        <div class="property-card-3d card-3d-3">
+                            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=500&q=80"
+                                alt="Estate House">
+                            <div class="card-3d-body">
+                                <h4>Estate House</h4>
+                                <p><i class="fas fa-map-marker-alt" style="color:var(--gold);"></i> Bahria Town, Lahore
+                                </p>
+                                <div class="card-3d-price">PKR 3.2 Crore</div>
+                            </div>
+                        </div>
+                        <div class="floating-stat top-right">
+                            <h4>500+</h4>
+                            <p>Properties Sold</p>
+                        </div>
+                        <div class="floating-stat bottom-left">
+                            <h4>98%</h4>
+                            <p>Client Satisfaction</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Marquee -->
+    <div class="marquee-strip">
+        <div class="marquee-content">
+            <span><i class="fas fa-star"></i> Karachi</span>
+            <span><i class="fas fa-star"></i> Lahore</span>
+            <span><i class="fas fa-star"></i> Islamabad</span>
+            <span><i class="fas fa-star"></i> Hyderabad</span>
+            <span><i class="fas fa-star"></i> Faisalabad</span>
+            <span><i class="fas fa-star"></i> Multan</span>
+            <span><i class="fas fa-star"></i> Luxury Villas</span>
+            <span><i class="fas fa-star"></i> Modern Apartments</span>
+            <span><i class="fas fa-star"></i> Karachi</span>
+            <span><i class="fas fa-star"></i> Lahore</span>
+            <span><i class="fas fa-star"></i> Islamabad</span>
+            <span><i class="fas fa-star"></i> Hyderabad</span>
+            <span><i class="fas fa-star"></i> Faisalabad</span>
+            <span><i class="fas fa-star"></i> Multan</span>
+            <span><i class="fas fa-star"></i> Luxury Villas</span>
+            <span><i class="fas fa-star"></i> Modern Apartments</span>
+        </div>
+    </div>
+
+    <!-- Stats -->
+    <section class="stats-bar">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-6">
+                    <div class="stat-bar-item reveal">
+                        <div class="stat-bar-num">500+</div>
+                        <div class="stat-bar-label">Properties Sold</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-bar-item reveal delay-1">
+                        <div class="stat-bar-num">120+</div>
+                        <div class="stat-bar-label">Happy Clients</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-bar-item reveal delay-2">
+                        <div class="stat-bar-num">15+</div>
+                        <div class="stat-bar-label">Expert Agents</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-bar-item reveal delay-3">
+                        <div class="stat-bar-num">8+</div>
+                        <div class="stat-bar-label">Years Experience</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Properties -->
+    <section class="featured-section" id="properties">
+        <div class="container">
+            <div class="section-title reveal">
+                <p class="eyebrow">Premium Listings</p>
+                <h2>Featured <em>Properties</em></h2>
+                <p>Handpicked luxury properties for discerning buyers</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="flip-card reveal">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80"
+                                    alt="Villa" class="flip-img">
+                                <div class="flip-body">
+                                    <h4>Grand Luxury Villa</h4>
+                                    <p class="location"><i class="fas fa-map-marker-alt" style="color:var(--gold);"></i>
+                                        DHA Phase 6, Karachi</p>
+                                    <div class="price">PKR 4.5 Crore</div>
+                                    <div class="features">
+                                        <span><i class="fas fa-bed"></i> 5 Beds</span>
+                                        <span><i class="fas fa-bath"></i> 4 Baths</span>
+                                        <span><i class="fas fa-ruler-combined"></i> 500 sqyd</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flip-card-back">
+                                <h4 class="flip-back-title">Property Details</h4>
+                                <ul class="flip-back-details">
+                                    <li><i class="fas fa-check"></i> 5 Spacious Bedrooms</li>
+                                    <li><i class="fas fa-check"></i> Modern Kitchen</li>
+                                    <li><i class="fas fa-check"></i> Swimming Pool</li>
+                                    <li><i class="fas fa-check"></i> Garden & Lawn</li>
+                                    <li><i class="fas fa-check"></i> 24/7 Security</li>
+                                    <li><i class="fas fa-check"></i> Smart Home System</li>
+                                </ul>
+                                <a href="#" class="flip-btn">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="flip-card reveal delay-1">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&q=80"
+                                    alt="Apartment" class="flip-img">
+                                <div class="flip-body">
+                                    <h4>Skyline Penthouse</h4>
+                                    <p class="location"><i class="fas fa-map-marker-alt" style="color:var(--gold);"></i>
+                                        Clifton, Karachi</p>
+                                    <div class="price">PKR 2.8 Crore</div>
+                                    <div class="features">
+                                        <span><i class="fas fa-bed"></i> 3 Beds</span>
+                                        <span><i class="fas fa-bath"></i> 3 Baths</span>
+                                        <span><i class="fas fa-ruler-combined"></i> 320 sqyd</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flip-card-back">
+                                <h4 class="flip-back-title">Property Details</h4>
+                                <ul class="flip-back-details">
+                                    <li><i class="fas fa-check"></i> Panoramic City View</li>
+                                    <li><i class="fas fa-check"></i> Private Terrace</li>
+                                    <li><i class="fas fa-check"></i> Gym Access</li>
+                                    <li><i class="fas fa-check"></i> Underground Parking</li>
+                                    <li><i class="fas fa-check"></i> Concierge Service</li>
+                                    <li><i class="fas fa-check"></i> High-Speed Elevator</li>
+                                </ul>
+                                <a href="#" class="flip-btn">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="flip-card reveal delay-2">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80"
+                                    alt="Estate" class="flip-img">
+                                <div class="flip-body">
+                                    <h4>Royal Estate House</h4>
+                                    <p class="location"><i class="fas fa-map-marker-alt" style="color:var(--gold);"></i>
+                                        Bahria Town, Lahore</p>
+                                    <div class="price">PKR 3.2 Crore</div>
+                                    <div class="features">
+                                        <span><i class="fas fa-bed"></i> 6 Beds</span>
+                                        <span><i class="fas fa-bath"></i> 5 Baths</span>
+                                        <span><i class="fas fa-ruler-combined"></i> 600 sqyd</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flip-card-back">
+                                <h4 class="flip-back-title">Property Details</h4>
+                                <ul class="flip-back-details">
+                                    <li><i class="fas fa-check"></i> 6 Bedrooms + Maid Room</li>
+                                    <li><i class="fas fa-check"></i> Home Theater</li>
+                                    <li><i class="fas fa-check"></i> BBQ Area</li>
+                                    <li><i class="fas fa-check"></i> Double Garage</li>
+                                    <li><i class="fas fa-check"></i> CCTV Security</li>
+                                    <li><i class="fas fa-check"></i> Near Park & School</li>
+                                </ul>
+                                <a href="#" class="flip-btn">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="flip-card reveal">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=600&q=80"
+                                    alt="Modern" class="flip-img">
+                                <div class="flip-body">
+                                    <h4>Modern Family Home</h4>
+                                    <p class="location"><i class="fas fa-map-marker-alt" style="color:var(--gold);"></i>
+                                        Gulshan-e-Iqbal, Karachi</p>
+                                    <div class="price">PKR 1.8 Crore</div>
+                                    <div class="features">
+                                        <span><i class="fas fa-bed"></i> 4 Beds</span>
+                                        <span><i class="fas fa-bath"></i> 3 Baths</span>
+                                        <span><i class="fas fa-ruler-combined"></i> 240 sqyd</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flip-card-back">
+                                <h4 class="flip-back-title">Property Details</h4>
+                                <ul class="flip-back-details">
+                                    <li><i class="fas fa-check"></i> 4 Bedrooms</li>
+                                    <li><i class="fas fa-check"></i> Open Kitchen</li>
+                                    <li><i class="fas fa-check"></i> Kids Play Area</li>
+                                    <li><i class="fas fa-check"></i> Car Porch</li>
+                                    <li><i class="fas fa-check"></i> Near Market</li>
+                                    <li><i class="fas fa-check"></i> Gated Community</li>
+                                </ul>
+                                <a href="#" class="flip-btn">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="flip-card reveal delay-1">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=600&q=80"
+                                    alt="Duplex" class="flip-img">
+                                <div class="flip-body">
+                                    <h4>Executive Duplex</h4>
+                                    <p class="location"><i class="fas fa-map-marker-alt" style="color:var(--gold);"></i>
+                                        Defence, Hyderabad</p>
+                                    <div class="price">PKR 1.5 Crore</div>
+                                    <div class="features">
+                                        <span><i class="fas fa-bed"></i> 4 Beds</span>
+                                        <span><i class="fas fa-bath"></i> 3 Baths</span>
+                                        <span><i class="fas fa-ruler-combined"></i> 200 sqyd</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flip-card-back">
+                                <h4 class="flip-back-title">Property Details</h4>
+                                <ul class="flip-back-details">
+                                    <li><i class="fas fa-check"></i> 4 Bedrooms</li>
+                                    <li><i class="fas fa-check"></i> Rooftop Terrace</li>
+                                    <li><i class="fas fa-check"></i> Modern Design</li>
+                                    <li><i class="fas fa-check"></i> Power Backup</li>
+                                    <li><i class="fas fa-check"></i> Near Hospital</li>
+                                    <li><i class="fas fa-check"></i> Corner Plot</li>
+                                </ul>
+                                <a href="#" class="flip-btn">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="flip-card reveal delay-2">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <img src="https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=600&q=80"
+                                    alt="Bungalow" class="flip-img">
+                                <div class="flip-body">
+                                    <h4>Heritage Bungalow</h4>
+                                    <p class="location"><i class="fas fa-map-marker-alt" style="color:var(--gold);"></i>
+                                        Latifabad, Hyderabad</p>
+                                    <div class="price">PKR 95 Lac</div>
+                                    <div class="features">
+                                        <span><i class="fas fa-bed"></i> 3 Beds</span>
+                                        <span><i class="fas fa-bath"></i> 2 Baths</span>
+                                        <span><i class="fas fa-ruler-combined"></i> 180 sqyd</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flip-card-back">
+                                <h4 class="flip-back-title">Property Details</h4>
+                                <ul class="flip-back-details">
+                                    <li><i class="fas fa-check"></i> 3 Bedrooms</li>
+                                    <li><i class="fas fa-check"></i> Vintage Architecture</li>
+                                    <li><i class="fas fa-check"></i> Large Garden</li>
+                                    <li><i class="fas fa-check"></i> Wooden Flooring</li>
+                                    <li><i class="fas fa-check"></i> Near Schools</li>
+                                    <li><i class="fas fa-check"></i> Quiet Neighborhood</li>
+                                </ul>
+                                <a href="#" class="flip-btn">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section class="services-section" id="services">
+        <div class="container">
+            <div class="section-title reveal">
+                <p class="eyebrow">What We Offer</p>
+                <h2>Our <em>Services</em></h2>
+                <p>Comprehensive real estate solutions for every need</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6">
+                    <div class="tilt-card reveal">
+                        <div class="tilt-icon"><i class="fas fa-home"></i></div>
+                        <h4>Buy Property</h4>
+                        <p>Find your perfect home from our extensive collection of premium properties across Pakistan.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="tilt-card reveal delay-1">
+                        <div class="tilt-icon"><i class="fas fa-hand-holding-usd"></i></div>
+                        <h4>Sell Property</h4>
+                        <p>Get the best value for your property with our expert market analysis and marketing.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="tilt-card reveal delay-2">
+                        <div class="tilt-icon"><i class="fas fa-key"></i></div>
+                        <h4>Rent Property</h4>
+                        <p>Discover rental properties that match your lifestyle and budget requirements.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="tilt-card reveal delay-3">
+                        <div class="tilt-icon"><i class="fas fa-chart-line"></i></div>
+                        <h4>Investment</h4>
+                        <p>Smart investment opportunities in high-growth real estate markets.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Locations -->
+    <section class="locations-section" id="locations">
+        <div class="container">
+            <div class="section-title reveal">
+                <p class="eyebrow">Prime Areas</p>
+                <h2>Popular <em>Locations</em></h2>
+                <p>Explore properties in Pakistan's most sought-after neighborhoods</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="location-card reveal">
+                        <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80"
+                            alt="Karachi">
+                        <div class="location-overlay">
+                            <h4>Karachi</h4>
+                            <p>120+ Properties Available</p>
+                        </div>
+                        <div class="location-count">120+</div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="location-card reveal delay-1">
+                        <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&q=80" alt="Lahore">
+                        <div class="location-overlay">
+                            <h4>Lahore</h4>
+                            <p>85+ Properties Available</p>
+                        </div>
+                        <div class="location-count">85+</div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="location-card reveal delay-2">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80"
+                            alt="Islamabad">
+                        <div class="location-overlay">
+                            <h4>Islamabad</h4>
+                            <p>60+ Properties Available</p>
+                        </div>
+                        <div class="location-count">60+</div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="location-card reveal">
+                        <img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=600&q=80"
+                            alt="Hyderabad">
+                        <h4>Hyderabad</h4>
+                        <p>45+ Properties Available</p>
+                    </div>
+                    <div class="location-count">45+</div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="location-card reveal delay-1">
+                        <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=600&q=80"
+                            alt="Faisalabad">
+                        <div class="location-overlay">
+                            <h4>Faisalabad</h4>
+                            <p>30+ Properties Available</p>
+                        </div>
+                        <div class="location-count">30+</div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="location-card reveal delay-2">
+                        <img src="https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=600&q=80" alt="Multan">
+                        <div class="location-overlay">
+                            <h4>Multan</h4>
+                            <p>25+ Properties Available</p>
+                        </div>
+                        <div class="location-count">25+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials-section" id="testimonials">
+        <div class="container">
+            <div class="section-title reveal">
+                <p class="eyebrow">Client Reviews</p>
+                <h2>What Our <em>Clients Say</em></h2>
+                <p>Trusted by hundreds of satisfied property owners</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="testi-card reveal">
+                        <div class="testi-quote">"</div>
+                        <p class="testi-text">Prime Estate made buying our dream home incredibly smooth. Their team was
+                            professional, responsive, and truly understood what we were looking for.</p>
+                        <div class="testi-author">
+                            <div class="testi-avatar">AK</div>
+                            <div class="testi-name">
+                                <h5>Ahmed Khan</h5>
+                                <p>Karachi, Pakistan</p>
+                            </div>
+                        </div>
+                        <div class="testi-stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="testi-card reveal delay-1">
+                        <div class="testi-quote">"</div>
+                        <p class="testi-text">Sold my property within 3 weeks at a great price! The marketing and
+                            negotiation skills of the Prime Estate team are unmatched.</p>
+                        <div class="testi-author">
+                            <div class="testi-avatar">SF</div>
+                            <div class="testi-name">
+                                <h5>Sara Farooq</h5>
+                                <p>Lahore, Pakistan</p>
+                            </div>
+                        </div>
+                        <div class="testi-stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="testi-card reveal delay-2">
+                        <div class="testi-quote">"</div>
+                        <p class="testi-text">Found the perfect rental apartment through Prime Estate. The process was
+                            transparent and hassle-free. Highly recommended!</p>
+                        <div class="testi-author">
+                            <div class="testi-avatar">MR</div>
+                            <div class="testi-name">
+                                <h5>Muhammad Rizwan</h5>
+                                <p>Hyderabad, Pakistan</p>
+                            </div>
+                        </div>
+                        <div class="testi-stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section" id="contact">
+        <div class="container">
+            <div class="cta-content reveal">
+                <h2>Ready to Find Your <em>Dream Home?</em></h2>
+                <p>Let our expert team guide you through the process. Whether you're buying, selling, or renting — we're
+                    here to help every step of the way.</p>
+                <a href="tel:+923163629458" class="cta-btn">Call Now <i class="fas fa-phone"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <div class="footer-brand">Prime<span>Estate</span></div>
+                    <p>Your trusted partner in finding the perfect property. We bring you the finest homes across
+                        Pakistan with unmatched service and expertise.</p>
+                    <div class="footer-social">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <h5>Quick Links</h5>
+                    <ul class="footer-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#properties">Properties</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <h5>Services</h5>
+                    <ul class="footer-links">
+                        <li><a href="#">Buy Property</a></li>
+                        <li><a href="#">Sell Property</a></li>
+                        <li><a href="#">Rent Property</a></li>
+                        <li><a href="#">Investment</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <h5>Contact Info</h5>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt me-2" style="color:var(--gold);"></i> Hyderabad, Sindh,
+                            Pakistan</li>
+                        <li><i class="fas fa-phone me-2" style="color:var(--gold);"></i> +92 316 3629458</li>
+                        <li><i class="fas fa-envelope me-2" style="color:var(--gold);"></i> fahimsiddiqui462@gmail.com
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 Prime Estate. All Rights Reserved. Built by Muhammad Faheem.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+        // Scroll reveal animation
+        const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+
+        const revealOnScroll = () => {
+            revealElements.forEach(el => {
+                const elementTop = el.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                if (elementTop < windowHeight - 100) {
+                    el.classList.add('active');
+                }
+            });
+        };
+
+        window.addEventListener('scroll', revealOnScroll);
+        window.addEventListener('load', revealOnScroll);
+
+        // Smooth scroll
+        $('a[href^="#"]').on('click', function (e) {
+            e.preventDefault();
+            const target = $(this.getAttribute('href'));
+            if (target.length) {
+                $('html, body').animate({ scrollTop: target.offset().top - 80 }, 800);
+            }
+        });
+
+        // Active nav on scroll
+        $(window).on('scroll', function () {
+            let current = '';
+            $('section[id]').each(function () {
+                const sectionTop = $(this).offset().top - 150;
+                if ($(window).scrollTop() >= sectionTop) {
+                    current = $(this).attr('id');
+                }
+            });
+            $('.nav-link').removeClass('active');
+            $('.nav-link[href="#' + current + '"]').addClass('active');
+        });
+
+        // Navbar shrink
+        $(window).on('scroll', function () {
+            if ($(window).scrollTop() > 50) {
+                $('.navbar').css({ 'padding': '12px 0', 'box-shadow': '0 5px 30px rgba(0,0,0,0.1)' });
+            } else {
+                $('.navbar').css({ 'padding': '20px 0', 'box-shadow': 'none' });
+            }
+        });
+
+        // 3D Card hover
+        $('.property-card-3d').on('mouseenter', function () {
+            $(this).css('z-index', '10');
+        }).on('mouseleave', function () {
+            const originalZ = $(this).hasClass('card-3d-1') ? '3' : $(this).hasClass('card-3d-2') ? '2' : '1';
+            $(this).css('z-index', originalZ);
+        });
+    </script>
+</body>
+
+</html>
